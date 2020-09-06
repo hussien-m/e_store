@@ -14,7 +14,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace       = 'App\Http\Controllers';
+    protected $namespace_admin = 'App\Http\Controllers\Dashboard';
+    protected $namespace_site  = 'App\Http\Controllers\Site';
 
     /**
      * The path to the "home" route for your application.
@@ -22,6 +24,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+    public const HOME_ADMIN = 'admin/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -46,6 +49,10 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapSiteRoutes();
+
+        $this->mapAdminRoutes();
+
         //
     }
 
@@ -61,6 +68,20 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+    protected function mapSiteRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace_site)
+            ->group(base_path('routes/site.php'));
+    }
+
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace_admin)
+            ->group(base_path('routes/admin.php'));
     }
 
     /**
